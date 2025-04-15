@@ -19,7 +19,7 @@ from plaid.model.country_code import CountryCode
 
 PLAID_CLIENT_ID=os.getenv('CLIENT_ID')
 PLAID_SECRET=os.getenv('PLAID_API_KEY')
-sandbox_url=os.getenv('SANDBOX_URL')
+
 PLAID_PRODUCTS = os.getenv('PLAID_PRODUCTS', 'transactions').split(',')
 PLAID_COUNTRY_CODES = os.getenv('PLAID_COUNTRY_CODES', 'US').split(',')
 print(PLAID_CLIENT_ID)
