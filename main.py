@@ -1,26 +1,19 @@
-from fastapi import Body, FastAPI, Response
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from Models.Utility_models import AccessToken
+from Models.Utility import AccessToken
+from Models.Transaction import create_transaction_model
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 import os
-import datetime as dt
-import json
-import time
-from datetime import date, timedelta
-import requests
 import plaid
 from plaid.api import plaid_api
-from plaid.model.consumer_report_permissible_purpose import ConsumerReportPermissiblePurpose
 from plaid.model.item_public_token_exchange_request import ItemPublicTokenExchangeRequest
-from plaid.model.link_token_create_request import LinkTokenCreateRequest
-from plaid.model.link_token_create_request_cra_options import LinkTokenCreateRequestCraOptions
-from plaid.model.link_token_create_request_statements import LinkTokenCreateRequestStatements
-from plaid.model.link_token_create_request_user import LinkTokenCreateRequestUser
+from plaid.model.transactions_sync_request import TransactionsSyncRequest
+
+
+
 from plaid.model.products import Products
-from plaid.model.country_code import CountryCode
 from plaid.model.sandbox_public_token_create_request import SandboxPublicTokenCreateRequest
-from plaid.model.sandbox_transfer_ledger_simulate_available_request import SandboxTransferLedgerSimulateAvailableRequest
 
 PLAID_CLIENT_ID=os.getenv('CLIENT_ID')
 PLAID_SECRET=os.getenv('PLAID_API_KEY')
@@ -77,6 +70,7 @@ configuration = plaid.Configuration(
 
 api_client = plaid.ApiClient(configuration)
 client = plaid_api.PlaidApi(api_client)
+access_token = None
 
 
 @app.get("/")
@@ -85,6 +79,7 @@ async def health_check():
 
 @app.get("/create_sandbox_access_token")
 async def create_sandbox_access_token():
+    global access_token
     pt_request = SandboxPublicTokenCreateRequest(
         institution_id=INSTITUTION_ID,
         initial_products=[Products('transactions')]
@@ -97,9 +92,32 @@ async def create_sandbox_access_token():
     )
     exchange_response = client.item_public_token_exchange(exchange_request)
     print(exchange_response)
+    access_token = exchange_response.access_token
     _access_token = AccessToken(
-        access_token=exchange_response.access_token,
+        access_token=access_token,
         item_id=exchange_response.item_id,
         request_id=exchange_response.request_id
     )
     return JSONResponse(content=jsonable_encoder(_access_token))
+
+
+@app.get("/getTransactions")
+async def getTransactions():
+    request = TransactionsSyncRequest(
+        access_token=access_token,
+    )
+    response = client.transactions_sync(request)
+    transactions = response['added']
+
+    # the transactions in the response are paginated, so make multiple calls while incrementing the cursor to
+    # retrieve all transactions
+    while (response['has_more']):
+        request = TransactionsSyncRequest(
+            access_token=access_token,
+            cursor=response['next_cursor']
+        )
+        response = client.transactions_sync(request)
+        transactions += response['added']
+    print(transactions[0])
+    _first_model = create_transaction_model(transactions[0])
+    return JSONResponse(content=jsonable_encoder(_first_model))

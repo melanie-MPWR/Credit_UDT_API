@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc0b320d-4218-4526-98da-368a1337bb09" name="Changes" comment="Adds ReadMe">
-      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/Utility_models.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/init.py" afterDir="false" />
+    <list default="true" id="dc0b320d-4218-4526-98da-368a1337bb09" name="Changes" comment="Adds Pydantic Models and FastAPI JSONResponse">
+      <change afterPath="$PROJECT_DIR$/Models/Transaction.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Utility_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Utility.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -129,13 +127,30 @@
       <option name="project" value="LOCAL" />
       <updated>1744740337868</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Adds Pydantic Models and FastAPI JSONResponse">
+      <option name="closed" value="true" />
+      <created>1744904515667</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1744904515667</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Adds Pydantic Models and FastAPI JSONResponse">
+      <option name="closed" value="true" />
+      <created>1744904543450</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1744904543450</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initial commit - integrates Plaid Sandbox" />
     <MESSAGE value="PyCharm gitignore" />
     <MESSAGE value="Adds ReadMe" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adds ReadMe" />
+    <MESSAGE value="Adds Pydantic Models and FastAPI JSONResponse" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adds Pydantic Models and FastAPI JSONResponse" />
   </component>
 </project>
