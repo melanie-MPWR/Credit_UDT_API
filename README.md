@@ -9,6 +9,9 @@
     Necessary env vars are:
         CLIENT_ID=
         PLAID_API_KEY=
+        INSTITUTION_ID=ins_109508 (The First Platypus Bank!!! - nonOAuth)
+
+    For more dummy institution codes visit [Sandbox institutions](https://plaid.com/docs/sandbox/institutions/)
 
     Other Plaid env vars such as PLAID_PRODUCTS and PLAID_COUNTRY_CODES are populated in the code.
 

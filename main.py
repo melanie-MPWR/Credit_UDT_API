@@ -1,5 +1,8 @@
-from fastapi import Body, FastAPI
+from fastapi import Body, FastAPI, Response
+from fastapi.middleware.cors import CORSMiddleware
+from Models.Utility_models import AccessToken
 from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
 import os
 import datetime as dt
 import json
@@ -9,20 +12,22 @@ import requests
 import plaid
 from plaid.api import plaid_api
 from plaid.model.consumer_report_permissible_purpose import ConsumerReportPermissiblePurpose
+from plaid.model.item_public_token_exchange_request import ItemPublicTokenExchangeRequest
 from plaid.model.link_token_create_request import LinkTokenCreateRequest
 from plaid.model.link_token_create_request_cra_options import LinkTokenCreateRequestCraOptions
 from plaid.model.link_token_create_request_statements import LinkTokenCreateRequestStatements
 from plaid.model.link_token_create_request_user import LinkTokenCreateRequestUser
 from plaid.model.products import Products
 from plaid.model.country_code import CountryCode
-
+from plaid.model.sandbox_public_token_create_request import SandboxPublicTokenCreateRequest
+from plaid.model.sandbox_transfer_ledger_simulate_available_request import SandboxTransferLedgerSimulateAvailableRequest
 
 PLAID_CLIENT_ID=os.getenv('CLIENT_ID')
 PLAID_SECRET=os.getenv('PLAID_API_KEY')
 
 PLAID_PRODUCTS = os.getenv('PLAID_PRODUCTS', 'transactions').split(',')
 PLAID_COUNTRY_CODES = os.getenv('PLAID_COUNTRY_CODES', 'US').split(',')
-print(PLAID_CLIENT_ID)
+INSTITUTION_ID = os.getenv('INSTITUTION_ID')
 
 def empty_to_none(field):
     value = os.getenv(field)
@@ -46,6 +51,21 @@ for product in PLAID_PRODUCTS:
     products.append(Products(product))
 
 app = FastAPI(debug=True)
+origins = [
+    "http://localhost.tiangolo.com",
+    "https://localhost.tiangolo.com",
+    "http://localhost",
+    "http://localhost:5173",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 configuration = plaid.Configuration(
     host=host,
@@ -58,49 +78,28 @@ configuration = plaid.Configuration(
 api_client = plaid.ApiClient(configuration)
 client = plaid_api.PlaidApi(api_client)
 
-async def create_link_token():
-    global user_token
-    try:
-        request = LinkTokenCreateRequest(
-            products=products,
-            client_name="Plaid Quickstart",
-            country_codes=list(map(lambda x: CountryCode(x), PLAID_COUNTRY_CODES)),
-            language='en',
-            user=LinkTokenCreateRequestUser(
-                client_user_id=str(time.time())
-            )
-        )
-        if PLAID_REDIRECT_URI != None:
-            request['redirect_uri'] = PLAID_REDIRECT_URI
-        if Products('statements') in products:
-            statements = LinkTokenCreateRequestStatements(
-                end_date=date.today(),
-                start_date=date.today() - timedelta(days=30)
-            )
-            request['statements'] = statements
-
-        cra_products = ["cra_base_report", "cra_income_insights", "cra_partner_insights"]
-        if any(product in cra_products for product in PLAID_PRODUCTS):
-            request['user_token'] = user_token
-            request['consumer_report_permissible_purpose'] = ConsumerReportPermissiblePurpose(
-                'ACCOUNT_REVIEW_CREDIT')
-            request['cra_options'] = LinkTokenCreateRequestCraOptions(
-                days_requested=60
-            )
-        # create link token
-        response = client.link_token_create(request)
-        return jsonable_encoder(response.to_dict())
-    except plaid.ApiException as e:
-        print(e)
-        return json.loads(e.body)
-
-
-
-
 
 @app.get("/")
 async def health_check():
-    access_token = await create_link_token()
-    return {json.dumps(access_token)}
+    return {'health': 'ok'}
 
-
+@app.get("/create_sandbox_access_token")
+async def create_sandbox_access_token():
+    pt_request = SandboxPublicTokenCreateRequest(
+        institution_id=INSTITUTION_ID,
+        initial_products=[Products('transactions')]
+    )
+    pt_response = client.sandbox_public_token_create(pt_request)
+    # The generated public_token can now be
+    # exchanged for an access_token
+    exchange_request = ItemPublicTokenExchangeRequest(
+        public_token=pt_response['public_token']
+    )
+    exchange_response = client.item_public_token_exchange(exchange_request)
+    print(exchange_response)
+    _access_token = AccessToken(
+        access_token=exchange_response.access_token,
+        item_id=exchange_response.item_id,
+        request_id=exchange_response.request_id
+    )
+    return JSONResponse(content=jsonable_encoder(_access_token))
