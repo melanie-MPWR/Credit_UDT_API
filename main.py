@@ -9,9 +9,6 @@ import plaid
 from plaid.api import plaid_api
 from plaid.model.item_public_token_exchange_request import ItemPublicTokenExchangeRequest
 from plaid.model.transactions_sync_request import TransactionsSyncRequest
-
-
-
 from plaid.model.products import Products
 from plaid.model.sandbox_public_token_create_request import SandboxPublicTokenCreateRequest
 
@@ -118,6 +115,7 @@ async def getTransactions():
         )
         response = client.transactions_sync(request)
         transactions += response['added']
-    print(transactions[0])
+
     _first_model = create_transaction_model(transactions[0])
+    print(_first_model)
     return JSONResponse(content=jsonable_encoder(_first_model))
