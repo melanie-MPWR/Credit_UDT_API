@@ -1,7 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from Models.Utility import AccessToken
-from Models.Transaction import create_transaction_model
+from plaid.model.accounts_balance_get_request import AccountsBalanceGetRequest
+
+from Models.utility import AccessToken
+from Models.transaction import create_transaction_model
+from Models.account import create_account_model
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 import os
@@ -11,6 +14,7 @@ from plaid.model.item_public_token_exchange_request import ItemPublicTokenExchan
 from plaid.model.transactions_sync_request import TransactionsSyncRequest
 from plaid.model.products import Products
 from plaid.model.sandbox_public_token_create_request import SandboxPublicTokenCreateRequest
+
 
 PLAID_CLIENT_ID=os.getenv('CLIENT_ID')
 PLAID_SECRET=os.getenv('PLAID_API_KEY')
@@ -116,6 +120,15 @@ async def getTransactions():
         response = client.transactions_sync(request)
         transactions += response['added']
 
-    _first_model = create_transaction_model(transactions[0])
-    print(_first_model)
-    return JSONResponse(content=jsonable_encoder(_first_model))
+
+    _transactions = [create_transaction_model(transaction) for transaction in transactions]
+    return JSONResponse(content=jsonable_encoder(_transactions))
+
+@app.get("/getAccounts")
+async def getAccounts():
+    request = AccountsBalanceGetRequest(access_token=access_token)
+    response = client.accounts_balance_get(request)
+    accounts = response['accounts']
+
+    _accounts = [create_account_model(account) for account in accounts]
+    return JSONResponse(content=jsonable_encoder(_accounts))

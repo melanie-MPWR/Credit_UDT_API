@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc0b320d-4218-4526-98da-368a1337bb09" name="Changes" comment="Using Pydantic Models from plaid-python">
+    <list default="true" id="dc0b320d-4218-4526-98da-368a1337bb09" name="Changes" comment="Pulls data into local Pydantic ORM and returns json">
+      <change afterPath="$PROJECT_DIR$/Models/account.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/Transaction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Transaction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Transaction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Models/transaction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Utility.py" beforeDir="false" afterPath="$PROJECT_DIR$/Models/utility.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -150,7 +152,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744919512757</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Pulls data into local Pydantic ORM and returns json">
+      <option name="closed" value="true" />
+      <created>1744967778629</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1744967778629</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -159,6 +169,7 @@
     <MESSAGE value="Adds ReadMe" />
     <MESSAGE value="Adds Pydantic Models and FastAPI JSONResponse" />
     <MESSAGE value="Using Pydantic Models from plaid-python" />
-    <option name="LAST_COMMIT_MESSAGE" value="Using Pydantic Models from plaid-python" />
+    <MESSAGE value="Pulls data into local Pydantic ORM and returns json" />
+    <option name="LAST_COMMIT_MESSAGE" value="Pulls data into local Pydantic ORM and returns json" />
   </component>
 </project>

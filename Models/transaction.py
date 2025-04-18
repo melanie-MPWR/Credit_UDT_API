@@ -1,7 +1,5 @@
 from __future__ import annotations
 from enum import Enum
-from typing import List, Optional, Any
-from datetime import date
 from plaid.model.transaction import Transaction
 from plaid.model.location import Location
 from plaid.model.payment_meta import PaymentMeta
@@ -9,31 +7,7 @@ from plaid.model.transaction_code import TransactionCode
 from plaid.model.personal_finance_category import PersonalFinanceCategory
 from plaid.model.business_finance_category import BusinessFinanceCategory
 from plaid.model.transaction_counterparty import TransactionCounterparty
-import json
 
-
-def to_json(self) -> str:
-    """Serialize the Transaction instance to a JSON string."""
-    # Convert instance attributes to a dictionary
-    transaction_dict = self.to_dict()
-
-    # Serialize the dictionary to a JSON string
-    return json.dumps(transaction_dict, default=str)  # Use default=str to handle non-serializable objects
-
-
-def to_dict(self) -> dict:
-    """Convert the Transaction instance to a dictionary."""
-    result = {}
-    for attr in self.openapi_types.keys():
-        value = getattr(self, attr, None)
-        if isinstance(value, list):
-            result[attr] = [item.to_dict() if hasattr(item, "to_dict") else item for item in value]
-        elif hasattr(value, "to_dict"):
-            result[attr] = value.to_dict()
-        else:
-            result[attr] = value
-
-    return result
 
 class CounterpartyType(str, Enum):
     MERCHANT = "merchant"
