@@ -130,5 +130,7 @@ async def getAccounts():
     response = client.accounts_balance_get(request)
     accounts = response['accounts']
 
+    # print(accounts)
+
     _accounts = [create_account_model(account) for account in accounts]
     return JSONResponse(content=jsonable_encoder(_accounts))
