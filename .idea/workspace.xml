@@ -4,9 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc0b320d-4218-4526-98da-368a1337bb09" name="Changes" comment="Adds Accounts to hold balance data">
+    <list default="true" id="dc0b320d-4218-4526-98da-368a1337bb09" name="Changes" comment="Gets Account Balances">
+      <change afterPath="$PROJECT_DIR$/Couchbase/couchbase_db.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Couchbase/create_transaction.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Couchbase/init.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Example_data/example_transaction.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Example_data/init.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/account.py" beforeDir="false" afterPath="$PROJECT_DIR$/Models/account.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/transaction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Models/transaction.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -36,17 +43,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.main.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "/Users/melaniethompson/Documents/Python/Credit_UDT_API/Example_data",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PythonContentEntriesConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Example_data" />
+      <recent name="$PROJECT_DIR$/Couchbase" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Couchbase" />
       <recent name="$PROJECT_DIR$/.venv" />
     </key>
   </component>
@@ -166,7 +179,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744973351926</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Gets Account Balances">
+      <option name="closed" value="true" />
+      <created>1744975541546</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1744975541546</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -177,6 +198,7 @@
     <MESSAGE value="Using Pydantic Models from plaid-python" />
     <MESSAGE value="Pulls data into local Pydantic ORM and returns json" />
     <MESSAGE value="Adds Accounts to hold balance data" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adds Accounts to hold balance data" />
+    <MESSAGE value="Gets Account Balances" />
+    <option name="LAST_COMMIT_MESSAGE" value="Gets Account Balances" />
   </component>
 </project>

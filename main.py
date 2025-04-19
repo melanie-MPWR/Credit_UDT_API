@@ -1,10 +1,16 @@
-from fastapi import FastAPI
+import json
+from pprint import pprint
+
+from fastapi import FastAPI, Body, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from plaid.model.accounts_balance_get_request import AccountsBalanceGetRequest
+from uuid import uuid4 as v4
 
 from Models.utility import AccessToken
 from Models.transaction import create_transaction_model
 from Models.account import create_account_model
+from Couchbase.create_transaction import create_transaction
+from Example_data.example_transaction import example
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 import os
@@ -14,7 +20,6 @@ from plaid.model.item_public_token_exchange_request import ItemPublicTokenExchan
 from plaid.model.transactions_sync_request import TransactionsSyncRequest
 from plaid.model.products import Products
 from plaid.model.sandbox_public_token_create_request import SandboxPublicTokenCreateRequest
-
 
 PLAID_CLIENT_ID=os.getenv('CLIENT_ID')
 PLAID_SECRET=os.getenv('PLAID_API_KEY')
@@ -102,8 +107,8 @@ async def create_sandbox_access_token():
     return JSONResponse(content=jsonable_encoder(_access_token))
 
 
-@app.get("/getTransactions")
-async def getTransactions():
+@app.get("/getTransactions/{number}")
+async def getTransactions(number: int):
     request = TransactionsSyncRequest(
         access_token=access_token,
     )
@@ -120,9 +125,25 @@ async def getTransactions():
         response = client.transactions_sync(request)
         transactions += response['added']
 
-
-    _transactions = [create_transaction_model(transaction) for transaction in transactions]
+    _transactions = [create_transaction_model(transaction) for transaction in transactions].to_dict()
+    if number:
+        return JSONResponse(content=jsonable_encoder(_transactions[:number]))
     return JSONResponse(content=jsonable_encoder(_transactions))
+
+@app.get("/createNewTransaction", status_code=201)
+async def createNewTransaction(): #new_transaction=Body()
+    new_transaction=example
+    # try:
+    transaction = create_transaction_model(new_transaction)
+    # except:
+    #     raise HTTPExce    #     raise HTTPException(status_code=502, detail="unable to parse new transaction")ption(status_code=502, detail="unable to parse new transaction")
+    _id=v4()
+
+    # create_transaction(transaction, _id)
+    return {"info": f"new transaction created with id {_id}"}
+
+
+
 
 @app.get("/getAccounts")
 async def getAccounts():
