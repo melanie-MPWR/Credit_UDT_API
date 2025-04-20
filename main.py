@@ -1,16 +1,18 @@
 import json
 from pprint import pprint
 
-from fastapi import FastAPI, Body, HTTPException
+from fastapi import FastAPI, Query, Path, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from typing import Annotated
 from plaid.model.accounts_balance_get_request import AccountsBalanceGetRequest
-from uuid import uuid4 as v4
 
+from Factories.factory_utils import prep_transaction_for_Couchbase
+from Factories.transaction_factory import generate_transactions
 from Models.utility import AccessToken
 from Models.transaction import create_transaction_model
 from Models.account import create_account_model
 from Couchbase.create_transaction import create_transaction
-from Example_data.example_transaction import example
+from Factories.example_transaction import example
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 import os
@@ -140,17 +142,17 @@ async def getTransactions(number: int):
         return JSONResponse(content=jsonable_encoder(_transactions[:number]))
     return JSONResponse(content=jsonable_encoder(_transactions))
 
+
 @app.get("/createNewTransaction", status_code=201)
-async def createNewTransaction(): #new_transaction=Body()
-    new_transaction=example
-    # try:
-    transaction = create_transaction_model(new_transaction)
-    # except:
-    #     raise HTTPExce    #     raise HTTPException(status_code=502, detail="unable to parse new transaction")ption(status_code=502, detail="unable to parse new transaction")
-    _id=str(v4())
-    pprint(transaction)
-    create_transaction(transaction, _id, couchbase_db)
-    return {"info": f"new transaction created with id {_id}"}
+async def create_default_transaction():
+    transactions = generate_transactions(1)
+    [prep_transaction_for_Couchbase(couchbase_db, transaction) for transaction in transactions]
+    return JSONResponse(content={"info" : f"{1} transaction record created"})
+@app.get("/createNewTransaction/{number}", status_code=201)
+async def createNewTransaction(number: int = Path(..., description="Number of transactions to create", ge=1, le=10)):
+    transactions = generate_transactions(number)
+    [prep_transaction_for_Couchbase(couchbase_db, transaction) for transaction in transactions]
+    return JSONResponse(content={"info" : f"{number} transactions records created"})
 
 @app.get("/getAccounts")
 async def getAccounts():

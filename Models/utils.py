@@ -13,3 +13,10 @@ def is_date(value: Any) -> datetime.date:
 
     else:
         return value
+
+def json_default(obj):
+    if isinstance(obj, set):
+        return list(obj)
+    elif isinstance(obj, datetime.date):
+        return str(obj)
+    raise TypeError
