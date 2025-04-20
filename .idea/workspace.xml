@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc0b320d-4218-4526-98da-368a1337bb09" name="Changes" comment="Adds post endpoint to generate SQL queries with Anthropic">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-    </list>
+    <list default="true" id="dc0b320d-4218-4526-98da-368a1337bb09" name="Changes" comment="Adds post endpoint to generate SQL queries with Anthropic" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
