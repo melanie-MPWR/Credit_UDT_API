@@ -1,14 +1,32 @@
 from __future__ import annotations
 from plaid.model.account_base import AccountBase
 from plaid.model.account_balance import AccountBalance
+from plaid.model.account_type import AccountType
+from plaid.model.account_subtype import AccountSubtype
+from plaid.model.account_holder_category import AccountHolderCategory
 
 def create_balance(balances):
     return AccountBalance(
-        available=balances.available,
-        current=balances.current,
-        limit=balances.limit,
-        iso_currency_code=balances.iso_currency_code,
-        unofficial_currency_code=balances.unofficial_currency_code,
+        available=balances.get('available'),
+        current=balances.get('current'),
+        limit=balances.get('limit'),
+        iso_currency_code=balances.get('iso_currency_code'),
+        unofficial_currency_code=balances.get('unofficial_currency_code'),
+    )
+
+def create_type(type):
+    return AccountType(
+        value=type,
+    )
+
+def create_subtype(subtype):
+    return AccountSubtype(
+        value=subtype,
+    )
+
+def create_holder_category(holder_category):
+    return AccountHolderCategory(
+        value=holder_category,
     )
 
 def create_account(account):
@@ -29,6 +47,18 @@ def create_account_model(account_data):
     if 'balances' in account_data and account_data['balances']:
         balances = account_data['balances']
         account_data['balances'] = create_balance(balances)
-    #     # account_data['balances'] = list(map(lambda balance: create_balance(balance), balances))
+
+    if 'type' in account_data and account_data['type']:
+        type = account_data['type']
+        account_data['type'] = create_type(type)
+
+    if 'subtype' in account_data and account_data['subtype']:
+        subtype = account_data['subtype']
+        account_data['subtype'] = create_subtype(subtype)
+
+    if 'holder_category' in account_data and account_data['holder_category']:
+        holder_category = account_data['holder_category']
+        account_data['holder_category'] = create_holder_category(holder_category)
+
 
     return create_account(account_data).to_dict()

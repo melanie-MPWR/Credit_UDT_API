@@ -5,11 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dc0b320d-4218-4526-98da-368a1337bb09" name="Changes" comment="Creates transaction in Couchbase!!!">
-      <change afterPath="$PROJECT_DIR$/Factories/init.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Factories/transaction_factory.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Couchbase/create_account.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Factories/account_factory.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_data/example_transaction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Factories/example_transaction.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_data/init.py" beforeDir="false" afterPath="$PROJECT_DIR$/Factories/factory_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Couchbase/create_transaction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Couchbase/create_transaction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Factories/factory_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/Factories/factory_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Factories/transaction_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/Factories/transaction_factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/account.py" beforeDir="false" afterPath="$PROJECT_DIR$/Models/account.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/transaction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Models/transaction.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Models/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/Models/utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -200,7 +203,23 @@
       <option name="project" value="LOCAL" />
       <updated>1745144676976</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Creates transaction in Couchbase!!!">
+      <option name="closed" value="true" />
+      <created>1745151552571</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1745151552571</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Creates transaction in Couchbase!!!">
+      <option name="closed" value="true" />
+      <created>1745151600848</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1745151600848</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -213,6 +232,7 @@
     <MESSAGE value="Adds Accounts to hold balance data" />
     <MESSAGE value="Gets Account Balances" />
     <MESSAGE value="Validations for transaction data" />
+    <MESSAGE value="Query param can speify number of transactions to create defaults to 1" />
     <MESSAGE value="Creates transaction in Couchbase!!!" />
     <option name="LAST_COMMIT_MESSAGE" value="Creates transaction in Couchbase!!!" />
   </component>

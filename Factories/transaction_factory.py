@@ -1,10 +1,10 @@
-import uuid
 import random
 import datetime
+from pprint import pprint
 from typing import List, Dict, Any
 
 
-class TransactionFactory:
+class TransactionFactory():
     """Factory for generating random transaction objects similar to financial API data."""
 
     # Lists of sample data for generating realistic transactions
@@ -59,10 +59,14 @@ class TransactionFactory:
     CONFIDENCE_LEVELS = ["VERY_HIGH", "HIGH", "MEDIUM", "LOW"]
     CURRENCIES = ["USD", "EUR", "GBP", "CAD"]
 
-    def __init__(self, seed: int = None):
+    def __init__(self, account_id: any = None, seed: int = None):
         """Initialize the factory with an optional random seed for reproducibility."""
+        if account_id is None:
+            account_id = self._generate_id()
         if seed is not None:
             random.seed(seed)
+        self.account_id = account_id
+
 
     @staticmethod
     def _generate_id() -> str:
@@ -108,6 +112,51 @@ class TransactionFactory:
         ]
         return random.choice(suffixes)
 
+    def generate_location(self):
+        # List of some example cities, regions, postal codes, and addresses
+        cities = {
+            "New York": {
+                "region": "New York",
+                "postal_code": "10001",
+                "address": "350 5th Ave, New York, NY"
+            },
+            "San Francisco": {
+                "region": "California",
+                "postal_code": "94105",
+                "address": "555 California St, San Francisco, CA"
+            },
+            "Chicago": {
+                "region": "Illinois",
+                "postal_code": "60601",
+                "address": "200 E Randolph St, Chicago, IL"
+            },
+            "Los Angeles": {
+                "region": "California",
+                "postal_code": "90001",
+                "address": "700 S Flower St, Los Angeles, CA"
+            },
+            "Seattle": {
+                "region": "Washington",
+                "postal_code": "98101",
+                "address": "1101 2nd Ave, Seattle, WA"
+            }
+        }
+
+        # Randomly choose a city
+        city = random.choice(list(cities.keys()))
+        location_info = cities[city]
+
+        return {
+            "address": location_info["address"],  # Address from city data
+            "city": city,  # City
+            "region": location_info["region"],  # Region (state)
+            "postal_code": location_info["postal_code"],  # Postal code
+            "country": "USA",  # Hardcoded country
+            "lat": round(random.uniform(32.0, 47.0), 6),  # Approximate latitudes for the US
+            "lon": round(random.uniform(-125.0, -67.0), 6),  # Approximate longitudes for the US
+            "store_number": random.choice(["001", "A12", "B34", "C56", "X99", None])  # Random store number
+        }
+
     def create_transaction(self) -> Dict[str, Any]:
         """Create a single transaction object."""
         # Select merchant
@@ -129,14 +178,17 @@ class TransactionFactory:
             "confidence_level": random.choice(self.CONFIDENCE_LEVELS)
         }
 
+        location = self.generate_location()
+
         # Generate transaction
         transaction = {
-            "account_id": self._generate_id(),
+            "account_id": self.account_id,
             "amount": self._generate_amount(),
             "iso_currency_code": random.choice(self.CURRENCIES),
             "category": category_data["category"],
             "category_id": category_data["category_id"],
             "date": trans_date,
+            "location": location,
             "name": self._generate_transaction_name(merchant["name"]),
             "transaction_id": self._generate_id(),
             "authorized_date": auth_date,
@@ -162,16 +214,7 @@ class TransactionFactory:
         return [self.create_transaction() for _ in range(count)]
 
 
-def generate_transactions(count: int, seed: int = None) -> List[Dict[str, Any]]:
-    """
-    Generate a specified number of random transaction objects.
-
-    Args:
-        count: Number of transactions to generate
-        seed: Optional random seed for reproducibility
-
-    Returns:
-        List of transaction objects
-    """
-    factory = TransactionFactory(seed)
+def generate_transactions(count: int, account_id: any = None, seed: int = None) -> List[Dict[str, Any]]:
+    pprint(f"ACCOUNT ID: {account_id}")
+    factory = TransactionFactory(account_id, seed)
     return factory.create_transactions(count)

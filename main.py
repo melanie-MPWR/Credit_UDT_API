@@ -1,12 +1,12 @@
-import json
-from pprint import pprint
+from functools import reduce
+import operator
 
-from fastapi import FastAPI, Query, Path, HTTPException
+from fastapi import FastAPI, Path, Query
 from fastapi.middleware.cors import CORSMiddleware
-from typing import Annotated
 from plaid.model.accounts_balance_get_request import AccountsBalanceGetRequest
 
-from Factories.factory_utils import prep_transaction_for_Couchbase
+from Factories.account_factory import generate_accounts
+from Factories.factory_utils import prep_transaction_for_Couchbase, prep_account_for_Couchbase
 from Factories.transaction_factory import generate_transactions
 from Models.utility import AccessToken
 from Models.transaction import create_transaction_model
@@ -23,6 +23,7 @@ from plaid.model.transactions_sync_request import TransactionsSyncRequest
 from plaid.model.products import Products
 from plaid.model.sandbox_public_token_create_request import SandboxPublicTokenCreateRequest
 from Couchbase.couchbase_db import CouchbaseClient
+from Models.utils import randint
 
 db_conn_str = os.getenv('DB_CONN_STR')
 db_username = os.getenv('DB_USERNAME')
@@ -142,14 +143,14 @@ async def getTransactions(number: int):
         return JSONResponse(content=jsonable_encoder(_transactions[:number]))
     return JSONResponse(content=jsonable_encoder(_transactions))
 
-
 @app.get("/createNewTransaction", status_code=201)
-async def create_default_transaction():
+async def create_single_transaction():
     transactions = generate_transactions(1)
     [prep_transaction_for_Couchbase(couchbase_db, transaction) for transaction in transactions]
     return JSONResponse(content={"info" : f"{1} transaction record created"})
+
 @app.get("/createNewTransaction/{number}", status_code=201)
-async def createNewTransaction(number: int = Path(..., description="Number of transactions to create", ge=1, le=10)):
+async def create_multiple_transactions(number: int = Path(..., description="Number of transactions to create", ge=1, le=1000)):
     transactions = generate_transactions(number)
     [prep_transaction_for_Couchbase(couchbase_db, transaction) for transaction in transactions]
     return JSONResponse(content={"info" : f"{number} transactions records created"})
@@ -159,8 +160,31 @@ async def getAccounts():
     request = AccountsBalanceGetRequest(access_token=access_token)
     response = client.accounts_balance_get(request)
     accounts = response['accounts']
-
-    # print(accounts)
-
     _accounts = [create_account_model(account) for account in accounts]
     return JSONResponse(content=jsonable_encoder(_accounts))
+
+@app.get("/createNewAccount", status_code=201)
+async def create_single_account():
+    accounts = generate_accounts(1)
+    [prep_account_for_Couchbase(couchbase_db, account) for account in accounts]
+    return JSONResponse(content={"info": f"{1} account record created"})
+
+# Example query for associated transactions http://127.0.0.1:8000/createNewTransaction/10?generate_associated_transactions=true
+@app.get("/createNewAccount/{number}", status_code=201)
+async def create_multiple_accounts(
+        number: int = Path(..., description="Number of accounts to create", ge=1, le=1000),
+        generate_associated_transactions: bool = Query(False,
+                                                       description="Generate randomised transactions associated with account ids")
+
+):
+    accounts = generate_accounts(number)
+    account_ids = [account['account_id'] for account in accounts]
+    [prep_account_for_Couchbase(couchbase_db, account) for account in accounts]
+
+    if generate_associated_transactions:
+        transactions = reduce(operator.concat,[generate_transactions(randint(), account_id) for account_id in account_ids])
+        [prep_transaction_for_Couchbase(couchbase_db, transaction) for transaction in transactions]
+
+        return JSONResponse(content={"info": f"{number} account records created and {len(transactions)} associated transactions created, with account_ids {', '.join(account_ids)}"})
+
+    return JSONResponse(content={"info" : f"{number} account records created"})

@@ -1,21 +1,21 @@
 import json
 from pprint import pprint
-from plaid.model.transaction import Transaction
+from plaid.model.account_base import AccountBase
 from couchbase.exceptions import DocumentExistsException
 from fastapi import HTTPException
 
 
-def create_transaction(
-    transaction: Transaction,
+def create_account(
+    account: AccountBase,
     id: str,
     db: any
-) -> Transaction:
+) -> AccountBase:
     """Create Transaction with specified ID"""
-    pprint(f"ACCESSING COUCHBASE {transaction}, {vars(db)}")
-    _transaction = json.loads(json.dumps(transaction, indent=4, sort_keys=True, default=str))
+    pprint(f"ACCESSING COUCHBASE {account}, {vars(db)}")
+    _account = json.loads(json.dumps(account, indent=4, sort_keys=True, default=str))
     try:
-        db.insert_document("transactions", id, _transaction)
-        return Transaction
+        db.insert_document("accounts", id, _account)
+        return AccountBase
     except DocumentExistsException:
         raise HTTPException(status_code=409, detail="Transaction already exists")
     except Exception as e:

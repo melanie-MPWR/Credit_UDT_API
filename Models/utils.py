@@ -1,5 +1,6 @@
 from typing import Any
 import datetime
+import random
 from fastapi import HTTPException
 
 
@@ -20,3 +21,7 @@ def json_default(obj):
     elif isinstance(obj, datetime.date):
         return str(obj)
     raise TypeError
+
+def randint(min=0,max=100):
+    a = random.randint(min,max)
+    return a

@@ -116,21 +116,6 @@ def create_transaction(transaction_data) -> Transaction:
         merchant_entity_id=transaction_data.get('merchant_entity_id')
     )
 
-    # if transaction_data['location']:
-    #     location = transaction_data.get('location'),
-    #     transaction['location'] = location
-    #
-    # if transaction_data['personal_finance_category']:
-    #     personal_finance_category = transaction_data.get('personal_finance_category'),
-    #     transaction['personal_finance_category'] = personal_finance_category
-    #
-    # if transaction_data['create_business_finance_category']:
-    #     create_business_finance_category = transaction_data.get('create_business_finance_category'),
-    #     transaction['create_business_finance_category'] = create_business_finance_category
-    #
-    # if transaction_data['counterparties']:
-    #     counterparties = transaction_data.get('counterparties'),
-    #     transaction['counterparties'] = counterparties
     return transaction
 
 def create_transaction_model(transaction_data):
