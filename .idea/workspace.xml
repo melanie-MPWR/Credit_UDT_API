@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc0b320d-4218-4526-98da-368a1337bb09" name="Changes" comment="Adds post endpoint to generate SQL queries with Anthropic">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+    <list default="true" id="dc0b320d-4218-4526-98da-368a1337bb09" name="Changes" comment="Removes .env">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -234,7 +235,31 @@
       <option name="project" value="LOCAL" />
       <updated>1745182348241</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Adds post endpoint to generate SQL queries with Anthropic">
+      <option name="closed" value="true" />
+      <created>1745182491656</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1745182491656</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Adds post endpoint to generate SQL queries with Anthropic">
+      <option name="closed" value="true" />
+      <created>1745182518464</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1745182518464</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Removes .env">
+      <option name="closed" value="true" />
+      <created>1745182739121</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1745182739121</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -251,6 +276,7 @@
     <MESSAGE value="Creates transaction in Couchbase!!!" />
     <MESSAGE value="Generates connected accounts and transactions" />
     <MESSAGE value="Adds post endpoint to generate SQL queries with Anthropic" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adds post endpoint to generate SQL queries with Anthropic" />
+    <MESSAGE value="Removes .env" />
+    <option name="LAST_COMMIT_MESSAGE" value="Removes .env" />
   </component>
 </project>
