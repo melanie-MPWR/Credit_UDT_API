@@ -155,4 +155,4 @@ def create_transaction_model(transaction_data):
         counterparties = transaction_data['counterparties']
         transaction_data['counterparties'] =  list(map(lambda counterparty: create_transaction_counterparty(counterparty), counterparties))
 
-    return create_transaction(transaction_data)
+    return create_transaction(transaction_data).to_dict()

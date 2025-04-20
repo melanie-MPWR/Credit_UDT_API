@@ -20,6 +20,11 @@ from plaid.model.item_public_token_exchange_request import ItemPublicTokenExchan
 from plaid.model.transactions_sync_request import TransactionsSyncRequest
 from plaid.model.products import Products
 from plaid.model.sandbox_public_token_create_request import SandboxPublicTokenCreateRequest
+from Couchbase.couchbase_db import CouchbaseClient
+
+db_conn_str = os.getenv('DB_CONN_STR')
+db_username = os.getenv('DB_USERNAME')
+db_password = os.getenv('DB_PASSWORD')
 
 PLAID_CLIENT_ID=os.getenv('CLIENT_ID')
 PLAID_SECRET=os.getenv('PLAID_API_KEY')
@@ -65,6 +70,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Couchbase client object shared by all routes
+couchbase_db = CouchbaseClient()
+print(f"USERNAME: {db_username}")
+couchbase_db.init_app(db_conn_str, db_username, db_password, app)
+couchbase_db.connect()
 
 configuration = plaid.Configuration(
     host=host,
@@ -125,7 +135,7 @@ async def getTransactions(number: int):
         response = client.transactions_sync(request)
         transactions += response['added']
 
-    _transactions = [create_transaction_model(transaction) for transaction in transactions].to_dict()
+    _transactions = [create_transaction_model(transaction) for transaction in transactions]
     if number:
         return JSONResponse(content=jsonable_encoder(_transactions[:number]))
     return JSONResponse(content=jsonable_encoder(_transactions))
@@ -137,13 +147,10 @@ async def createNewTransaction(): #new_transaction=Body()
     transaction = create_transaction_model(new_transaction)
     # except:
     #     raise HTTPExce    #     raise HTTPException(status_code=502, detail="unable to parse new transaction")ption(status_code=502, detail="unable to parse new transaction")
-    _id=v4()
-
-    # create_transaction(transaction, _id)
+    _id=str(v4())
+    pprint(transaction)
+    create_transaction(transaction, _id, couchbase_db)
     return {"info": f"new transaction created with id {_id}"}
-
-
-
 
 @app.get("/getAccounts")
 async def getAccounts():

@@ -1,7 +1,4 @@
-from __future__ import annotations
-
-from pprint import pprint
-
+import json
 from couchbase.cluster import Cluster
 from couchbase.options import ClusterOptions
 from couchbase.auth import PasswordAuthenticator
@@ -9,9 +6,6 @@ from couchbase.exceptions import CouchbaseException
 from datetime import timedelta
 from couchbase.result import PingResult
 from couchbase.diagnostics import PingState, ServiceType
-import os
-import json
-from functools import cache
 from couchbase.management.search import SearchIndex
 from couchbase.exceptions import QueryIndexAlreadyExistsException
 from couchbase.options import SearchOptions
@@ -22,23 +16,27 @@ import couchbase.search as search
 class CouchbaseClient(object):
     """Class to handle interactions with Couchbase cluster"""
 
-    def __init__(self, conn_str: str, username: str, password: str) -> CouchbaseClient:
+    def __init__(self) -> None:
         self.cluster = None
         self.bucket = None
         self.scope = None
+        self.app = None
+
+    def init_app(self, conn_str: str, username: str, password: str, app):
+        """Initialize connection to the Couchbase cluster"""
         self.conn_str = conn_str
+        self.bucket_name = "Plaid"
+        self.scope_name = "_default"
         self.username = username
         self.password = password
-        self.index_name = "hotel_search"
-        self.bucket_name = "travel-sample"
-        self.scope_name = "inventory"
+        self.index_name = None
+        self.app = app
         self.connect()
 
     def connect(self) -> None:
         """Connect to the Couchbase cluster"""
         # If the connection is not established, establish it now
         if not self.cluster:
-            print("connecting to db")
             try:
                 # authentication for Couchbase cluster
                 auth = PasswordAuthenticator(self.username, self.password)
@@ -58,13 +56,15 @@ class CouchbaseClient(object):
             except CouchbaseException as error:
                 print(f"Could not connect to cluster. \nError: {error}")
                 print(
-                    "WARNING: Ensure that you have the travel-sample bucket loaded in the cluster."
+                    "Ensure that you have the travel-sample bucket loaded in the cluster."
                 )
+                exit()
 
             if not self.check_scope_exists():
                 print(
-                    "WARNING: Inventory scope does not exist in the bucket. \nEnsure that you have the inventory scope in your travel-sample bucket."
+                    "Inventory scope does not exist in the bucket. \nEnsure that you have the inventory scope in your travel-sample bucket."
                 )
+                exit()
 
             # get a reference to our scope
             self.scope = self.bucket.scope(self.scope_name)
@@ -83,10 +83,12 @@ class CouchbaseClient(object):
                 scope.name for scope in self.bucket.collections().get_all_scopes()
             ]
             return self.scope_name in scopes_in_bucket
-        except Exception:
+        except Exception as e:
             print(
                 "Error fetching scopes in cluster. \nEnsure that travel-sample bucket exists."
             )
+            print(e)
+            exit()
 
     def is_search_service_enabled(self, min_nodes: int = 1) -> bool:
         try:
@@ -117,14 +119,6 @@ class CouchbaseClient(object):
             print(f"Index with name '{self.index_name}' already exists")
         except Exception as e:
             print(f"Error upserting index '{self.index_name}': {e}")
-
-    def close(self) -> None:
-        """Close the connection to the Couchbase cluster"""
-        if self.cluster:
-            try:
-                self.cluster.close()
-            except Exception as e:
-                print(f"Error closing cluster. \nError: {e}")
 
     def get_document(self, collection_name: str, key: str):
         """Get document by key using KV operation"""
@@ -165,7 +159,7 @@ class CouchbaseClient(object):
             print("Error while performing fts search", {e})
         return names
 
-    def filter(self, filter: dict, limit, offset):
+    def filter(self, filter, limit, offset):
         """Perform a full-text search with filters and pagination"""
         try:
             conjuncts = []
@@ -200,19 +194,3 @@ class CouchbaseClient(object):
         except Exception as e:
             print("Error while performing fts search", {e})
         return hotels
-
-
-@cache
-def get_db() -> CouchbaseClient:
-    """Get Couchbase client"""
-    pprint("GETTING COUCHBASE DB")
-    conn_str = os.getenv("DB_CONN_STR")
-    username = os.getenv("DB_USERNAME")
-    password = os.getenv("DB_PASSWORD")
-    if conn_str is None:
-        print("WARNING: DB_CONN_STR environment variable not set")
-    if username is None:
-        print("WARNING: DB_USERNAME environment variable not set")
-    if password is None:
-        print("WARNING: DB_PASSWORD environment variable not set")
-    return CouchbaseClient(conn_str, username, password)

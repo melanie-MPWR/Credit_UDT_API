@@ -4,15 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc0b320d-4218-4526-98da-368a1337bb09" name="Changes" comment="Gets Account Balances">
-      <change afterPath="$PROJECT_DIR$/Couchbase/couchbase_db.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Couchbase/create_transaction.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Couchbase/init.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Example_data/example_transaction.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Example_data/init.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+    <list default="true" id="dc0b320d-4218-4526-98da-368a1337bb09" name="Changes" comment="Validations for transaction data">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Couchbase/couchbase_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/Couchbase/couchbase_db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Couchbase/create_transaction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Couchbase/create_transaction.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Models/transaction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Models/transaction.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -187,7 +182,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744975541546</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Validations for transaction data">
+      <option name="closed" value="true" />
+      <created>1745095720257</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1745095720257</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -199,6 +202,7 @@
     <MESSAGE value="Pulls data into local Pydantic ORM and returns json" />
     <MESSAGE value="Adds Accounts to hold balance data" />
     <MESSAGE value="Gets Account Balances" />
-    <option name="LAST_COMMIT_MESSAGE" value="Gets Account Balances" />
+    <MESSAGE value="Validations for transaction data" />
+    <option name="LAST_COMMIT_MESSAGE" value="Validations for transaction data" />
   </component>
 </project>
