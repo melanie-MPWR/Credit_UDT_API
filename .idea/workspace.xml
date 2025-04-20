@@ -4,16 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc0b320d-4218-4526-98da-368a1337bb09" name="Changes" comment="Creates transaction in Couchbase!!!">
-      <change afterPath="$PROJECT_DIR$/Couchbase/create_account.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Factories/account_factory.py" afterDir="false" />
+    <list default="true" id="dc0b320d-4218-4526-98da-368a1337bb09" name="Changes" comment="Adds post endpoint to generate SQL queries with Anthropic">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Couchbase/create_transaction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Couchbase/create_transaction.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Factories/factory_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/Factories/factory_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Factories/transaction_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/Factories/transaction_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/account.py" beforeDir="false" afterPath="$PROJECT_DIR$/Models/account.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/transaction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Models/transaction.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/Models/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/text_to_SQL.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/text_to_SQL.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -43,16 +36,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.main.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "/Users/melaniethompson/Documents/Python/Credit_UDT_API/Example_data",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/melaniethompson/Documents/Python/Credit_UDT_API/Example_data&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/Example_data" />
@@ -219,7 +212,23 @@
       <option name="project" value="LOCAL" />
       <updated>1745151600848</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Generates connected accounts and transactions">
+      <option name="closed" value="true" />
+      <created>1745176587382</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1745176587382</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Adds post endpoint to generate SQL queries with Anthropic">
+      <option name="closed" value="true" />
+      <created>1745182255754</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1745182255754</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -234,6 +243,8 @@
     <MESSAGE value="Validations for transaction data" />
     <MESSAGE value="Query param can speify number of transactions to create defaults to 1" />
     <MESSAGE value="Creates transaction in Couchbase!!!" />
-    <option name="LAST_COMMIT_MESSAGE" value="Creates transaction in Couchbase!!!" />
+    <MESSAGE value="Generates connected accounts and transactions" />
+    <MESSAGE value="Adds post endpoint to generate SQL queries with Anthropic" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adds post endpoint to generate SQL queries with Anthropic" />
   </component>
 </project>

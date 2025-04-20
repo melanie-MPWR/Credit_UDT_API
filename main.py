@@ -1,18 +1,19 @@
 from functools import reduce
 import operator
+from typing import List, Dict, Any, Optional
 
-from fastapi import FastAPI, Path, Query
+from fastapi import FastAPI, Path, Query, Body
 from fastapi.middleware.cors import CORSMiddleware
 from plaid.model.accounts_balance_get_request import AccountsBalanceGetRequest
+from pydantic import BaseModel
 
+from AI.text_to_SQL import getQueryPrompt, write_query
 from Factories.account_factory import generate_accounts
 from Factories.factory_utils import prep_transaction_for_Couchbase, prep_account_for_Couchbase
 from Factories.transaction_factory import generate_transactions
 from Models.utility import AccessToken
 from Models.transaction import create_transaction_model
 from Models.account import create_account_model
-from Couchbase.create_transaction import create_transaction
-from Factories.example_transaction import example
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 import os
@@ -188,3 +189,39 @@ async def create_multiple_accounts(
         return JSONResponse(content={"info": f"{number} account records created and {len(transactions)} associated transactions created, with account_ids {', '.join(account_ids)}"})
 
     return JSONResponse(content={"info" : f"{number} account records created"})
+
+
+class QuestionRequest(BaseModel):
+    question: str
+    context: Optional[Dict[str, Any]] = None
+    max_results: Optional[int] = 10
+
+# Define response model
+class QueryResponse(BaseModel):
+    results: List[Dict[str, Any]]
+    execution_time_ms: float
+    question: str
+@app.post("/queryCouchbase", response_model=QueryResponse, status_code=200)
+async def queryCouchbase(question: QuestionRequest = Body(...)):
+        # Example SQL Query
+        # query = """
+        # SELECT a.*
+        # FROM `Plaid`.`_default`.`accounts` a
+        # LIMIT 5;
+        # """
+
+    # AI POST
+    # results=getQueryPrompt()
+    print(f"ANSWERING THIS QUESTION {question}")
+    query = write_query(question)
+    result = couchbase_db.query(query)
+    results = []
+
+    for row in result:
+        print("account: ", row)
+        results.append(row)
+
+    return JSONResponse(content={
+        "query": query,
+        "result": f"{results}"
+    })
